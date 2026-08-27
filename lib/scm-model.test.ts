@@ -1,6 +1,48 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeLeadtimeGap } from './scm-model.ts';
+import { normalizeLeadtimeGap, normalizeStockoutRisk } from './scm-model.ts';
+
+test('normalizes analytics stockout risk rows into the screen model', () => {
+  const result = normalizeStockoutRisk({
+    item_id: 'ITEM012',
+    item_name: '전원 모듈',
+    supplier_id: 'SUP003',
+    current_stock: 723,
+    inbound_qty: 361,
+    available_qty: 1084,
+    daily_usage_avg: 60.22,
+    cv: 0.42,
+    planned_lead_time: 31,
+    stockout_days: 18,
+    stockout_date: '2026-09-18',
+    risk_status: 'CRITICAL',
+    reason: null,
+  });
+
+  assert.deepEqual(result, {
+    itemId: 'ITEM012',
+    itemName: '전원 모듈',
+    supplierId: 'SUP003',
+    currentStock: 723,
+    inboundQty: 361,
+    availableQty: 1084,
+    dailyUsageAvg: 60.22,
+    cv: 0.42,
+    plannedLeadTime: 31,
+    stockoutDays: 18,
+    stockoutDate: '2026-09-18',
+    riskStatus: 'CRITICAL',
+    reason: null,
+  });
+});
+
+test('preserves unknown stockout reasons and null calculations', () => {
+  const result = normalizeStockoutRisk({ 품목코드: 'ITEM020', 품목명: '미사용 품목', 현재고: 50, 위험상태: 'UNKNOWN', 사유: 'NO_USAGE' });
+  assert.equal(result.itemId, 'ITEM020');
+  assert.equal(result.stockoutDays, null);
+  assert.equal(result.riskStatus, 'UNKNOWN');
+  assert.equal(result.reason, 'NO_USAGE');
+});
 
 test('normalizes analytics leadtime rows into the screen model', () => {
   const result = normalizeLeadtimeGap({
