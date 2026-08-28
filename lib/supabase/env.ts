@@ -15,6 +15,9 @@ export function getSupabaseEnv(): SupabaseEnv | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const publishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !publishableKey) return null;
+  if (publishableKey.startsWith('sb_secret_')) {
+    throw new Error('secret 키는 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY에 사용할 수 없습니다.');
+  }
   return { url, publishableKey };
 }
 
