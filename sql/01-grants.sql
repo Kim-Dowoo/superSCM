@@ -1,27 +1,33 @@
--- API 롤에 읽기 권한을 부여합니다.
---
--- dump.sql 에는 GRANT 문이 없어서, 복원 직후에는 Exposed schemas 를
--- 설정해도 "permission denied for schema analytics" (42501) 가 납니다.
--- Supabase → SQL Editor 에서 이 파일을 한 번 실행하세요.
+-- STEP 2 권한 원칙: anon은 업무 데이터를 조회하거나 변경할 수 없습니다.
+-- 이 파일은 20260828000100_auth_rbac.sql 마이그레이션과 동일한 GRANT 정책을
+-- SQL Editor에서 점검·재적용할 때 사용합니다.
 
--- 1) 스키마에 들어갈 수 있게
-grant usage on schema core      to anon, authenticated;
-grant usage on schema analytics to anon, authenticated;
+revoke all on schema core, analytics from public, anon;
+revoke all privileges on all tables in schema core from public, anon;
+revoke all privileges on all tables in schema analytics from public, anon;
+revoke all privileges on all sequences in schema core from public, anon;
+revoke all privileges on all functions in schema core from public, anon;
+alter default privileges in schema core revoke all on tables from public, anon;
+alter default privileges in schema analytics revoke all on tables from public, anon;
+alter default privileges in schema core revoke execute on functions from public, anon;
 
--- 2) 안에 있는 뷰·테이블을 읽을 수 있게 (뷰도 all tables 에 포함됩니다)
-grant select on all tables in schema core      to anon, authenticated;
-grant select on all tables in schema analytics to anon, authenticated;
+-- authenticated는 분석 화면(analytics)만 기본 조회합니다.
+grant usage on schema core, analytics to authenticated;
+revoke all privileges on all tables in schema core from authenticated;
+grant select on all tables in schema analytics to authenticated;
+alter default privileges in schema analytics grant select on tables to authenticated;
 
--- 3) 앞으로 새로 만드는 뷰에도 자동으로 붙게
---    (오후에 뷰를 추가해도 다시 GRANT 하지 않아도 됩니다)
-alter default privileges in schema core
-  grant select on tables to anon, authenticated;
-alter default privileges in schema analytics
-  grant select on tables to anon, authenticated;
+-- core의 예외는 프로필 조회, 관리자 감사 조회 및 관리자 전용 확정값 변경입니다.
+-- 실제 행 접근 및 변경 권한은 02-policies.sql의 RLS가 활성 ADMIN으로 제한합니다.
+grant select on core.app_user, core.audit_log to authenticated;
+grant select, insert, update, delete on core.leadtime_plan, core.usage_profile to authenticated;
 
--- raw 스키마는 일부러 열지 않습니다.
--- core/analytics 뷰가 postgres 소유(security definer)라 raw 를 대신 읽어줍니다.
+revoke all on function core.is_admin() from public, anon;
+grant execute on function core.is_admin() to authenticated;
+revoke all on function core.admin_update_user(uuid, text, boolean) from public, anon;
+grant execute on function core.admin_update_user(uuid, text, boolean) to authenticated;
 
--- 확인
-select has_schema_privilege('anon', 'analytics', 'usage')            as anon_schema_ok,
-       has_table_privilege('anon', 'analytics.v_leadtime_gap', 'select') as anon_view_ok;
+-- 확인: anon은 false, authenticated의 analytics 권한은 true여야 합니다.
+select has_schema_privilege('anon', 'analytics', 'usage') as anon_analytics_schema_ok,
+       has_table_privilege('anon', 'analytics.v_leadtime_gap', 'select') as anon_analytics_view_ok,
+       has_table_privilege('authenticated', 'analytics.v_leadtime_gap', 'select') as authenticated_analytics_view_ok;
