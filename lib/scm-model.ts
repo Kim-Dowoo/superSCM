@@ -53,6 +53,14 @@ export type ForecastSettings = {
   itemPolicyCount: number;
 };
 
+export type DemandType = 'SMOOTH' | 'INTERMITTENT' | 'ERRATIC' | 'LUMPY';
+export type DemandProfile = {
+  itemId: string; itemName: string; nPeriods: number; nNonzeroPeriods: number;
+  adi: number | null; cv: number | null; cvSquared: number | null; zeroDemandRate: number | null;
+  trend: number | null; recentChangeRate: number | null; peakPeriod: string | null;
+  demandType: DemandType | null; seasonality: string | null; reasonCode: string | null; stability: string | null;
+};
+
 function value(row: Record<string, unknown>, keys: string[]) {
   for (const key of keys) {
     if (row[key] !== undefined && row[key] !== null && row[key] !== '') return row[key];
