@@ -54,7 +54,7 @@ export default function ProcurementApp() {
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isDone = index < currentIndex;
-            return <button key={step.id} className={`nav-button ${active === step.id ? 'active' : ''} ${isDone ? 'complete' : ''}`} onClick={() => navigate(index)}>
+            return <button key={step.id} className={`nav-button ${active === step.id ? 'active' : ''} ${isDone ? 'complete' : ''}`} onClick={() => navigate(index)} aria-current={active === step.id ? 'step' : undefined}>
               <span className="nav-number">{isDone ? <Check size={12} strokeWidth={3} /> : <Icon size={13} />}</span>
               <span>{step.label}</span>
             </button>;

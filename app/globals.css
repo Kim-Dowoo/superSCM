@@ -1,20 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap");
 
 :root {
-  --ink: #182230;
-  --muted: #718096;
-  --line: #e3e8ef;
-  --canvas: #f5f7fb;
-  --surface: #ffffff;
-  --navy: #17365d;
-  --blue: #2f6fed;
-  --pale-blue: #edf4ff;
-  --green: #1f9d68;
-  --pale-green: #eaf8f1;
-  --amber: #bd7211;
-  --pale-amber: #fff6e4;
-  --red: #c2413d;
-  --pale-red: #fff0ef;
+  --ink: #d3e4fe;
+  --muted: #c6c6cd;
+  --line: #45464d;
+  --canvas: #031427;
+  --surface: #0b1c30;
+  --surface-high: #1b2b3f;
+  --surface-highest: #26364a;
+  --navy: #d3e4fe;
+  --blue: #4cd7f6;
+  --pale-blue: #0d3142;
+  --green: #4edea3;
+  --pale-green: #092d24;
+  --amber: #f2bd6b;
+  --pale-amber: #3b2a10;
+  --red: #ffb4ab;
+  --pale-red: #421c22;
 }
 
 * {
@@ -1134,4 +1136,440 @@ td,
 .nav-link-arrow {
   margin-left: auto;
   opacity: 0.55;
+}
+
+/* ── 다크 SCM 운영 콘솔 디자인 시스템 ───────────────────── */
+html,
+body {
+  background: var(--canvas);
+}
+
+body {
+  color: var(--ink);
+}
+
+.sidebar {
+  width: 240px;
+  flex-basis: 240px;
+  padding: 24px 16px;
+  background: var(--surface);
+  border-right: 1px solid rgba(69, 70, 77, 0.7);
+}
+
+.brand {
+  margin: 0 8px 34px;
+}
+
+.brand-mark {
+  border: 1px solid rgba(76, 215, 246, 0.55);
+  border-radius: 50%;
+  background: rgba(76, 215, 246, 0.14);
+  color: var(--blue);
+  box-shadow: 0 0 14px rgba(76, 215, 246, 0.14);
+}
+
+.brand-copy strong {
+  color: var(--blue);
+  font-family: Geist, "Noto Sans KR", sans-serif;
+  font-size: 16px;
+}
+
+.brand-copy span,
+.nav-label,
+.sidebar-foot {
+  color: var(--muted);
+}
+
+.nav-label {
+  padding: 0 10px;
+  letter-spacing: 0.08em;
+}
+
+.nav-button {
+  position: relative;
+  border-radius: 6px;
+  color: var(--muted);
+  padding: 11px;
+}
+
+.nav-button:hover {
+  background: var(--surface-highest);
+  color: var(--ink);
+}
+
+.nav-button.active {
+  background: rgba(76, 215, 246, 0.1);
+  color: var(--blue);
+  box-shadow: none;
+}
+
+.nav-button.active::before {
+  position: absolute;
+  top: 7px;
+  bottom: 7px;
+  left: -16px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--blue);
+  content: "";
+}
+
+.nav-button.complete {
+  color: var(--green);
+}
+
+.nav-button.active .nav-number {
+  background: rgba(76, 215, 246, 0.18);
+  border-color: rgba(76, 215, 246, 0.28);
+}
+
+.sidebar-foot {
+  border-color: rgba(69, 70, 77, 0.7);
+}
+
+.sidebar-foot b {
+  color: var(--ink);
+}
+
+.topbar {
+  height: 64px;
+  padding: 0 32px;
+  background: rgba(3, 20, 39, 0.88);
+  border-color: rgba(69, 70, 77, 0.7);
+  backdrop-filter: blur(12px);
+}
+
+.topbar h1,
+.analysis-heading h2 {
+  color: var(--ink);
+  font-family: Geist, "Noto Sans KR", sans-serif;
+}
+
+.content {
+  max-width: 1440px;
+  padding: 24px 32px 56px;
+}
+
+.eyebrow {
+  color: var(--blue);
+}
+
+.local-badge {
+  border-color: rgba(78, 222, 163, 0.45);
+  background: rgba(78, 222, 163, 0.12);
+  color: var(--green);
+}
+
+.progress-wrap,
+.card {
+  background: var(--surface);
+  border-color: rgba(69, 70, 77, 0.9);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.progress-wrap {
+  padding: 18px 22px 14px;
+}
+
+.progress-step {
+  color: #8291a5;
+}
+
+.progress-step.active {
+  color: var(--blue);
+}
+
+.progress-step.done {
+  color: var(--green);
+}
+
+.progress-step.active .progress-kicker {
+  color: var(--blue);
+}
+
+.progress-step.done .progress-kicker {
+  color: var(--green);
+}
+
+.progress-dot {
+  border-color: #536174;
+  background: var(--surface-high);
+  color: #9cabbf;
+  box-shadow: 0 0 0 5px var(--surface);
+}
+
+.progress-step.active .progress-dot {
+  border-color: var(--blue);
+  background: rgba(76, 215, 246, 0.15);
+  color: var(--blue);
+}
+
+.progress-step.done .progress-dot {
+  border-color: var(--green);
+  background: rgba(78, 222, 163, 0.13);
+  color: var(--green);
+}
+
+.progress-line {
+  background: #536174;
+}
+
+.progress-line.done {
+  background: var(--green);
+}
+
+.card {
+  padding: 18px;
+}
+
+.card-title h3,
+.section-heading h3,
+.analysis-heading h2,
+.page-heading h2,
+.report-preview h4,
+.flow-card h3,
+.sample-input b {
+  color: var(--ink);
+}
+
+.card-title span,
+.section-heading span,
+.page-heading p,
+.analysis-heading p,
+.metric-label,
+.metric-foot,
+.muted {
+  color: var(--muted);
+}
+
+.metric-value {
+  color: var(--ink);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-foot.good,
+.text-good {
+  color: var(--green) !important;
+}
+
+.metric-foot.warn {
+  color: var(--amber);
+}
+
+.metric-foot.danger,
+.text-danger,
+.positive {
+  color: var(--red) !important;
+}
+
+.button {
+  min-height: 36px;
+  background: var(--surface-high);
+  border-color: rgba(69, 70, 77, 0.95);
+  color: var(--ink);
+}
+
+.button:hover {
+  background: var(--surface-highest);
+  border-color: rgba(76, 215, 246, 0.6);
+}
+
+.button.primary {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #001f26;
+  box-shadow: 0 0 15px rgba(76, 215, 246, 0.16);
+}
+
+.button.primary:hover {
+  background: #73e1fa;
+}
+
+.button.ghost {
+  border-color: rgba(76, 215, 246, 0.35);
+  background: rgba(76, 215, 246, 0.1);
+  color: var(--blue);
+}
+
+.toolbar-group select,
+.table-select,
+.form-input,
+.table-input {
+  border-color: rgba(69, 70, 77, 0.95);
+  background: var(--surface-high);
+  color: var(--ink);
+}
+
+.toolbar-group select:focus,
+.table-select:focus,
+.form-input:focus,
+.table-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(76, 215, 246, 0.18);
+}
+
+.table-wrap {
+  border-color: rgba(69, 70, 77, 0.95);
+  background: var(--surface);
+}
+
+th,
+.analysis-table th {
+  background: var(--surface-high);
+  color: var(--muted);
+  border-color: rgba(69, 70, 77, 0.85);
+}
+
+td,
+.analysis-table td {
+  min-height: 44px;
+  color: var(--ink);
+  border-color: rgba(69, 70, 77, 0.6);
+}
+
+tbody tr:hover td,
+.analysis-table tbody tr:hover td {
+  background: rgba(38, 54, 74, 0.78);
+}
+
+.tag {
+  border: 1px solid transparent;
+}
+
+.tag.blue {
+  border-color: rgba(76, 215, 246, 0.3);
+  background: rgba(76, 215, 246, 0.12);
+  color: var(--blue);
+}
+
+.tag.green {
+  border-color: rgba(78, 222, 163, 0.3);
+  background: rgba(78, 222, 163, 0.12);
+  color: var(--green);
+}
+
+.tag.amber {
+  border-color: rgba(242, 189, 107, 0.3);
+  background: rgba(242, 189, 107, 0.12);
+  color: var(--amber);
+}
+
+.tag.red {
+  border-color: rgba(255, 180, 171, 0.32);
+  background: rgba(255, 180, 171, 0.12);
+  color: var(--red);
+}
+
+.tag.gray {
+  border-color: rgba(198, 198, 205, 0.2);
+  background: rgba(198, 198, 205, 0.1);
+  color: var(--muted);
+}
+
+.analysis-shell {
+  background: var(--canvas);
+}
+
+.analysis-topbar {
+  min-height: 64px;
+  padding: 12px 32px;
+  background: rgba(11, 28, 48, 0.88);
+  border-color: rgba(69, 70, 77, 0.72);
+  backdrop-filter: blur(12px);
+}
+
+.analysis-home {
+  color: var(--muted);
+}
+
+.analysis-home:hover,
+.analysis-tab:hover {
+  color: var(--ink);
+}
+
+.analysis-tab {
+  border: 1px solid transparent;
+  color: var(--muted);
+}
+
+.analysis-tab:hover {
+  background: var(--surface-highest);
+}
+
+.analysis-tab.active {
+  background: rgba(76, 215, 246, 0.12);
+  border-color: rgba(76, 215, 246, 0.35);
+  color: var(--blue);
+}
+
+.analysis-tab.locked,
+.analysis-tab.locked:hover {
+  color: #8291a5;
+}
+
+.callout,
+.meeting-toggle,
+.sample-input,
+.report-preview,
+.meeting-result {
+  border-color: rgba(69, 70, 77, 0.9);
+  background: var(--surface-high);
+  color: var(--muted);
+}
+
+.callout.blue {
+  border-color: rgba(76, 215, 246, 0.3);
+  background: rgba(76, 215, 246, 0.1);
+  color: var(--blue);
+}
+
+.flow-icon {
+  background: rgba(76, 215, 246, 0.12);
+  color: var(--blue);
+}
+
+.flow-card::after,
+.metric-interactive::after {
+  background: rgba(76, 215, 246, 0.08);
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 1050px) {
+  .sidebar {
+    width: 218px;
+    flex-basis: 218px;
+  }
+}
+
+@media (max-width: 760px) {
+  .sidebar {
+    width: 100%;
+    flex-basis: auto;
+  }
+
+  .nav-button.active::before {
+    left: -15px;
+  }
+
+  .topbar,
+  .analysis-topbar {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
 }
