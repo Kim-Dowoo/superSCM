@@ -21,7 +21,7 @@ export async function updateUser(
   const admin = await requireAdmin();
   const targetUserId = formData.get('userId');
   const role = formData.get('role');
-  const active = formData.get('active') === 'true';
+  const active = formData.has('active');
 
   if (typeof targetUserId !== 'string' || !targetUserId || !isAppRole(role)) {
     return { error: '변경할 사용자 정보가 올바르지 않습니다.', message: null };

@@ -31,7 +31,6 @@ function UserRow({ user, isCurrentAdmin }: { user: ManagedUser; isCurrentAdmin: 
               <option value="USER">USER</option>
               <option value="ADMIN">ADMIN</option>
             </select>
-            <input name="active" type="hidden" value="false" />
             <label>
               <input defaultChecked={user.active} name="active" type="checkbox" value="true" /> 활성
             </label>
