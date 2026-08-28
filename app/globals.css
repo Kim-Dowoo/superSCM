@@ -2,20 +2,21 @@
 @import "../styles/shell.css";
 @import "../styles/components.css";
 @import "../styles/chart.css";
+@import "../styles/green-shell.css";
 
 :root {
-  --color-canvas: #031427;
-  --color-surface: #0b1c30;
-  --color-surface-raised: #102034;
-  --color-surface-hover: #1b2b3f;
-  --color-text: #d3e4fe;
-  --color-text-muted: #aeb9c8;
-  --color-border: #45464d;
-  --color-accent: #4cd7f6;
-  --color-safe: #4edea3;
-  --color-warning: #f2bd6b;
-  --color-critical: #ffb4ab;
-  --color-unavailable: #c6c6cd;
+  --color-canvas: #f4f9f7;
+  --color-surface: #ffffff;
+  --color-surface-raised: #eef7f4;
+  --color-surface-hover: #e7f3ef;
+  --color-text: #163b3a;
+  --color-text-muted: #71818a;
+  --color-border: #dce8e5;
+  --color-accent: #2eaa93;
+  --color-safe: #238665;
+  --color-warning: #c47a13;
+  --color-critical: #c2413d;
+  --color-unavailable: #71818a;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -24,7 +25,7 @@
   --space-6: 32px;
   --radius-sm: 6px;
   --radius-md: 10px;
-  --shadow-accent: 0 0 16px rgb(76 215 246 / 16%);
+  --shadow-accent: 0 8px 20px rgb(46 170 147 / 16%);
 }
 
 * { box-sizing: border-box; }

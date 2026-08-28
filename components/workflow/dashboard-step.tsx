@@ -1,7 +1,7 @@
-import { ArrowRight, CheckCircle2, CircleDollarSign, FileText, PackageCheck, Plus, Sparkles, TriangleAlert } from 'lucide-react';
+import { ArrowRight, BarChart3, CheckCircle2, CircleDollarSign, FileText, PackageCheck, Plus, Sparkles, TriangleAlert } from 'lucide-react';
 import type { StepId } from '@/components/procurement-app';
 
-export default function DashboardStep({ onStart, onOpenStep }: { onStart: () => void; onOpenStep: (id: StepId) => void }) {
+export default function DashboardStep({ onStart, onOpenStep, onOpenAnalysis }: { onStart: () => void; onOpenStep: (id: StepId) => void; onOpenAnalysis: (id: 'leadtime' | 'stockout' | 'demand-profile' | 'model-comparison') => void }) {
   const openCard = (id: StepId) => ({
     role: 'button',
     tabIndex: 0,
@@ -28,6 +28,7 @@ export default function DashboardStep({ onStart, onOpenStep }: { onStart: () => 
       </div></div>
       <div className="card"><div className="card-title"><h3>이번 달 업무 진입</h3><span>2026년 09월</span></div><div className="callout blue"><Sparkles size={17} /><div><strong>전체 플로우를 먼저 확인하세요</strong>각 단계는 현재 개괄 화면으로 연결되어 있습니다. 실제 입력·계산·저장은 다음 구현 단계에서 활성화됩니다.</div></div><button className="button primary" style={{ marginTop: 16 }} onClick={onStart}>수요 확정부터 시작 <ArrowRight size={14} /></button></div>
     </div>
+    <div className="section card analysis-branch"><div className="card-title"><div><h3>분석 브랜치</h3><span>같은 화면 아래에서 바로 확인</span></div><BarChart3 size={18} /></div><div className="grid grid-4">{[['leadtime','리드타임 분석','공급처별 P80 격차'],['stockout','소진 위험 분석','가용재고와 소진일'],['demand-profile','SKU 수요 프로파일','수요 유형과 안정성'],['model-comparison','Model Comparison','Actual과 Forecast 비교']].map(([id,label,description]) => <button key={id} className="button branch-button" onClick={() => onOpenAnalysis(id as 'leadtime' | 'stockout' | 'demand-profile' | 'model-comparison')}><strong>{label}</strong><span>{description}</span><ArrowRight size={14} /></button>)}</div></div>
     <div className="section"><div className="section-heading"><h3>발주계획 목록</h3><span>최근 작성 순</span></div><div className="table-wrap"><table><thead><tr><th>계획명</th><th>기준월도</th><th>현재 단계</th><th>최종 수정</th><th className="num">총 발주금액</th><th>상태</th></tr></thead><tbody><tr><td><b>2026년 09월 정기 발주</b></td><td>2026.09</td><td>수요 확정</td><td>오늘 09:42</td><td className="num">₩107,240,000</td><td><span className="tag blue">작성 중</span></td></tr><tr><td><b>2026년 08월 정기 발주</b></td><td>2026.08</td><td>보고자료</td><td>2026.07.28</td><td className="num">₩98,940,000</td><td><span className="tag green">완료</span></td></tr></tbody></table></div></div>
   </>;
 }

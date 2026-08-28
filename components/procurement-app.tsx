@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, BarChart3, Boxes, Check, ChevronLeft, ChevronRight, CircleDollarSign, ClipboardCheck, FileSpreadsheet, FileText, Gauge, LineChart, Layers3, PackageCheck, Settings2, ShoppingCart, Upload, Workflow, Wrench } from 'lucide-react';
+import { AlertTriangle, ArrowRight, BarChart3, Boxes, Check, ChevronLeft, ChevronRight, CircleDollarSign, ClipboardCheck, FileSpreadsheet, FileText, Gauge, LineChart, Layers3, PackageCheck, Settings2, ShoppingCart, Upload, Workflow, Wrench } from 'lucide-react';
 import DashboardStep from '@/components/workflow/dashboard-step';
 import LogoutButton from '@/components/auth/logout-button';
 import DemandStep from '@/components/workflow/demand-step';
@@ -12,6 +12,7 @@ import CalculationStep from '@/components/workflow/calculation-step';
 import ReportStep from '@/components/workflow/report-step';
 
 export type StepId = 'dashboard' | 'demand' | 'supply' | 'master' | 'calculation' | 'report';
+type AnalysisBranchId = 'leadtime' | 'stockout' | 'demand-profile' | 'model-comparison';
 
 const steps: { id: StepId; label: string; short: string; kicker: string; icon: typeof Gauge }[] = [
   { id: 'dashboard', label: '전체 현황', short: '현황', kicker: 'OVERVIEW', icon: Gauge },
@@ -24,6 +25,7 @@ const steps: { id: StepId; label: string; short: string; kicker: string; icon: t
 
 export default function ProcurementApp() {
   const [active, setActive] = useState<StepId>('dashboard');
+  const [analysisBranch, setAnalysisBranch] = useState<AnalysisBranchId | null>(null);
   const currentIndex = steps.findIndex((step) => step.id === active);
   const current = steps[currentIndex];
   const completedCount = Math.max(0, currentIndex);
@@ -39,9 +41,9 @@ export default function ProcurementApp() {
       case 'master': return <MasterStep {...props} />;
       case 'calculation': return <CalculationStep {...props} />;
       case 'report': return <ReportStep {...props} />;
-      default: return <DashboardStep onStart={goNext} onOpenStep={setActive} />;
+      default: return <><DashboardStep onStart={goNext} onOpenStep={setActive} onOpenAnalysis={setAnalysisBranch} />{analysisBranch ? <section className="analysis-branch-panel"><div><span className="eyebrow">ANALYSIS BRANCH</span><h2>{analysisBranch === 'leadtime' ? '리드타임 분석' : analysisBranch === 'stockout' ? '소진 위험 분석' : analysisBranch === 'demand-profile' ? 'SKU 수요 프로파일' : 'Model Comparison'}</h2><p>선택한 분석 브랜치를 현재 화면 아래에 열었습니다. 상세 데이터 화면은 저장된 analytics 결과를 사용합니다.</p></div><Link className="button primary" href={`/analysis/${analysisBranch}`}>상세 분석 열기 <ArrowRight size={14} /></Link></section> : null}</>;
     }
-  }, [active]);
+  }, [active, analysisBranch]);
 
   return (
     <div className="app-shell legacy-workflow-shell">
