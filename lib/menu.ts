@@ -9,6 +9,7 @@ export const menuItems: MenuItem[] = [
   { href: '/analysis/leadtime', label: '리드타임 격차', icon: BarChart3, scope: 'USER' },
   { href: '/analysis/stockout', label: '재고 소진 위험', icon: BarChart3, scope: 'USER' },
   { href: '/analysis/demand-profile', label: 'SKU 수요 프로파일', icon: BarChart3, scope: 'USER' },
+  { href: '/analysis/model-comparison', label: '모델 비교', icon: BarChart3, scope: 'USER' },
   { href: '/admin', label: '관리 설정', icon: Settings, scope: 'ADMIN' },
   { href: '/admin/users', label: '사용자 관리', icon: UsersRound, scope: 'ADMIN' },
   { href: '/admin/forecast-settings', label: 'Forecast 설정', icon: Settings, scope: 'ADMIN' },

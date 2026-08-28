@@ -51,7 +51,7 @@ with setting as (
          avg(quantity) filter (where period_index > period_count - 3 and quantity is not null)::numeric as recent_mean,
          avg(quantity) filter (where period_index > period_count - 6 and period_index <= period_count - 3 and quantity is not null)::numeric as prior_mean
     from numbered
-   group by item_id
+   group by item_id, period_count
 ), calculated as (
   select s.*, case when positive_mean > 0 then positive_sd / positive_mean else null end as cv
     from stats s

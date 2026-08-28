@@ -62,6 +62,8 @@ export type DemandProfile = {
 };
 export type ForecastModel = { modelId: string; modelName: string; family: string; engine: string; version: string; enabled: boolean; demandTypes: string[]; parameters: Record<string, unknown> };
 export type ForecastRun = { runId: string; status: string; startedAt: string; finishedAt: string | null; nModels: number; nItems: number; nRows: number; dataSnapshotAt: string | null; isStale: boolean; triggeredEmail: string | null };
+export type ModelPerformance = { itemId: string; modelId: string; modelVersion: string; nPeriods: number; wape: number | null; mape: number | null; bias: number | null; rmse: number | null; mae: number | null; rank: number | null; status: string; reasonCode: string | null };
+export type ModelComparisonPoint = { itemId: string; modelId: string; period: string; predictedQty: number | null; actualQty: number | null };
 
 function value(row: Record<string, unknown>, keys: string[]) {
   for (const key of keys) {
