@@ -45,3 +45,11 @@
 - 증상: STEP5 migration 실행 중 `relation "core.forecast_setting" does not exist`가 발생했습니다.
 - 원인: STEP5는 STEP3에서 생성한 `core.forecast_setting`, `core.v_train_demand`, `core.v_item_master`를 전제로 합니다. STEP3 migration보다 먼저 실행했거나 STEP3가 아직 Supabase에 적용되지 않았습니다.
 - 해결: 먼저 `20260828000200_step3_data_model.sql` 전체를 실행해 기반 테이블/뷰를 만든 다음, `20260828000400_demand_profile.sql`을 실행합니다. 마지막에 `notify pgrst, 'reload schema';`를 실행합니다.
+
+## 2026-08-28 — Vercel에서 기존 데이터 기반 화면이 보이지 않음
+
+- 증상: 예전에는 Vercel에서 데이터 기반 진척/분석 화면이 보였지만 현재는 화면이 보이지 않거나 로그인 화면으로 이동합니다.
+- 확인: Vercel `super-scm` 최신 Production 배포는 `READY`이며 최근 7일 런타임 오류는 없습니다. 보호된 `/analysis/*` 요청은 인증되지 않은 경우 로그인 경로로 리다이렉트됩니다.
+- 원인: STEP2 인증/RBAC 적용 이후 `middleware.ts`가 세션과 `core.app_user.active`를 확인합니다. Vercel 브라우저에 Supabase 로그인 쿠키가 없거나, 로그인 계정의 `core.app_user` 행이 없거나 비활성 상태이면 분석 데이터 조회 전에 `/login`으로 이동합니다. 데이터 삭제나 배포 실패로 판단할 근거는 확인되지 않았습니다.
+- 해결: Vercel Production URL에서 활성 Supabase 계정으로 로그인하고, 계정이 `core.app_user`에 `active=true`로 존재하는지 확인합니다. 최초 ADMIN이 없으면 `sql/03-admin-user-grant.sql`의 부트스트랩 절차를 SQL Editor에서 1회 실행합니다. 로그인 후에도 데이터가 비어 있으면 Supabase API Exposed schemas(`core`, `analytics`)와 STEP3~STEP7 migration 적용 여부를 확인합니다.
+- 검증: Production 최신 커밋 `431c67f` 배포 상태 `READY`, 런타임 오류 0건, 비로그인 `/analysis/leadtime` 요청이 로그인 보호로 차단되는 것을 확인했습니다.
