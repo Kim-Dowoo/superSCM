@@ -11,6 +11,7 @@ export const menuItems: MenuItem[] = [
   { href: '/admin', label: '관리 설정', icon: Settings, scope: 'ADMIN' },
   { href: '/admin/users', label: '사용자 관리', icon: UsersRound, scope: 'ADMIN' },
   { href: '/admin/forecast-settings', label: 'Forecast 설정', icon: Settings, scope: 'ADMIN' },
+  { href: '/admin/data-management', label: '데이터 관리', icon: Settings, scope: 'ADMIN' },
 ];
 
 export function getMenuItems(scope: MenuScope) { return menuItems.filter((item) => item.scope === scope); }
