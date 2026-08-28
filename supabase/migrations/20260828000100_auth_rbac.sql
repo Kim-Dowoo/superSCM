@@ -88,11 +88,33 @@ as $$
   );
 $$;
 
+-- 분석 뷰는 이 함수를 거쳐 활성 프로필이 없는 Auth 계정도 차단합니다.
+create or replace function core.require_active_user()
+returns boolean
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if exists (
+    select 1
+      from core.app_user
+     where user_id = auth.uid()
+       and active = true
+  ) then
+    return true;
+  end if;
+
+  raise exception '활성 사용자만 분석 데이터를 조회할 수 있습니다.' using errcode = '42501';
+end;
+$$;
+
 -- 공개 함수 실행 권한을 제거하고 필요한 로그인 역할에만 RPC 실행을 허용합니다.
 revoke all on function core.set_app_user_updated_at() from public, anon, authenticated;
 revoke all on function core.handle_new_auth_user() from public, anon, authenticated;
 revoke all on function core.is_admin() from public, anon;
 grant execute on function core.is_admin() to authenticated;
+revoke all on function core.require_active_user() from public, anon, authenticated;
 
 -- 익명 사용자는 업무 스키마·뷰·테이블·함수를 사용할 수 없습니다.
 revoke all on schema core, analytics from public, anon;
@@ -100,15 +122,99 @@ revoke all privileges on all tables in schema core from public, anon;
 revoke all privileges on all tables in schema analytics from public, anon;
 revoke all privileges on all sequences in schema core from public, anon;
 revoke all privileges on all functions in schema core from public, anon;
+revoke all privileges on all functions in schema analytics from public, anon, authenticated;
 alter default privileges in schema core revoke all on tables from public, anon;
 alter default privileges in schema analytics revoke all on tables from public, anon;
 alter default privileges in schema core revoke execute on functions from public, anon;
+alter default privileges in schema analytics revoke execute on functions from public, anon, authenticated;
 
--- 로그인 사용자는 analytics 뷰만 기본 조회할 수 있습니다.
+-- 기존 분석 계산 뷰를 내부 원본으로 보관하고, 외부 이름에는 활성 사용자 검사를 붙입니다.
+-- 원본 뷰의 계산 정의와 기존 뷰 의존성은 이름 변경으로 보존됩니다.
+revoke all privileges on all tables in schema analytics from authenticated;
+do $$
+begin
+  if to_regclass('analytics._secure_v_leadtime_gap_source') is null
+     and to_regclass('analytics.v_leadtime_gap') is not null then
+    alter view analytics.v_leadtime_gap rename to _secure_v_leadtime_gap_source;
+  end if;
+
+  if to_regclass('analytics._secure_v_stockout_risk_source') is null
+     and to_regclass('analytics.v_stockout_risk') is not null then
+    alter view analytics.v_stockout_risk rename to _secure_v_stockout_risk_source;
+  end if;
+
+  if to_regclass('analytics._secure_v_stockout_kpi_source') is null
+     and to_regclass('analytics.v_stockout_kpi') is not null then
+    alter view analytics.v_stockout_kpi rename to _secure_v_stockout_kpi_source;
+  end if;
+
+  if to_regclass('analytics._secure_v_usage_profile_source') is null
+     and to_regclass('analytics.v_usage_profile') is not null then
+    alter view analytics.v_usage_profile rename to _secure_v_usage_profile_source;
+  end if;
+
+  if to_regclass('analytics._secure_v_usage_anomaly_source') is null
+     and to_regclass('analytics.v_usage_anomaly') is not null then
+    alter view analytics.v_usage_anomaly rename to _secure_v_usage_anomaly_source;
+  end if;
+end;
+$$;
+
+create or replace function analytics.secure_v_leadtime_gap()
+returns setof analytics._secure_v_leadtime_gap_source
+language plpgsql security definer set search_path = ''
+as $$ begin perform core.require_active_user(); return query select * from analytics._secure_v_leadtime_gap_source; end; $$;
+
+create or replace function analytics.secure_v_stockout_risk()
+returns setof analytics._secure_v_stockout_risk_source
+language plpgsql security definer set search_path = ''
+as $$ begin perform core.require_active_user(); return query select * from analytics._secure_v_stockout_risk_source; end; $$;
+
+create or replace function analytics.secure_v_stockout_kpi()
+returns setof analytics._secure_v_stockout_kpi_source
+language plpgsql security definer set search_path = ''
+as $$ begin perform core.require_active_user(); return query select * from analytics._secure_v_stockout_kpi_source; end; $$;
+
+create or replace function analytics.secure_v_usage_profile()
+returns setof analytics._secure_v_usage_profile_source
+language plpgsql security definer set search_path = ''
+as $$ begin perform core.require_active_user(); return query select * from analytics._secure_v_usage_profile_source; end; $$;
+
+create or replace function analytics.secure_v_usage_anomaly()
+returns setof analytics._secure_v_usage_anomaly_source
+language plpgsql security definer set search_path = ''
+as $$ begin perform core.require_active_user(); return query select * from analytics._secure_v_usage_anomaly_source; end; $$;
+
+create or replace view analytics.v_leadtime_gap as
+  select * from analytics.secure_v_leadtime_gap();
+create or replace view analytics.v_stockout_risk as
+  select * from analytics.secure_v_stockout_risk();
+create or replace view analytics.v_stockout_kpi as
+  select * from analytics.secure_v_stockout_kpi();
+create or replace view analytics.v_usage_profile as
+  select * from analytics.secure_v_usage_profile();
+create or replace view analytics.v_usage_anomaly as
+  select * from analytics.secure_v_usage_anomaly();
+
+revoke all on function analytics.secure_v_leadtime_gap() from public, anon, authenticated;
+revoke all on function analytics.secure_v_stockout_risk() from public, anon, authenticated;
+revoke all on function analytics.secure_v_stockout_kpi() from public, anon, authenticated;
+revoke all on function analytics.secure_v_usage_profile() from public, anon, authenticated;
+revoke all on function analytics.secure_v_usage_anomaly() from public, anon, authenticated;
+grant execute on function analytics.secure_v_leadtime_gap() to authenticated;
+grant execute on function analytics.secure_v_stockout_risk() to authenticated;
+grant execute on function analytics.secure_v_stockout_kpi() to authenticated;
+grant execute on function analytics.secure_v_usage_profile() to authenticated;
+grant execute on function analytics.secure_v_usage_anomaly() to authenticated;
+
+-- 로그인 사용자는 활성 프로필 검사가 붙은 analytics 뷰만 조회할 수 있습니다.
 grant usage on schema core, analytics to authenticated;
 revoke all privileges on all tables in schema core from authenticated;
-grant select on all tables in schema analytics to authenticated;
-alter default privileges in schema analytics grant select on tables to authenticated;
+grant select on analytics.v_leadtime_gap,
+                analytics.v_stockout_risk,
+                analytics.v_stockout_kpi,
+                analytics.v_usage_profile,
+                analytics.v_usage_anomaly to authenticated;
 
 -- core 조회·수정 권한은 필요한 테이블로 최소화하고, 실제 허용 여부는 RLS가 판정합니다.
 grant select on core.app_user, core.audit_log to authenticated;
