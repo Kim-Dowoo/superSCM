@@ -60,6 +60,8 @@ export type DemandProfile = {
   trend: number | null; recentChangeRate: number | null; peakPeriod: string | null;
   demandType: DemandType | null; seasonality: string | null; reasonCode: string | null; stability: string | null;
 };
+export type ForecastModel = { modelId: string; modelName: string; family: string; engine: string; version: string; enabled: boolean; demandTypes: string[]; parameters: Record<string, unknown> };
+export type ForecastRun = { runId: string; status: string; startedAt: string; finishedAt: string | null; nModels: number; nItems: number; nRows: number; dataSnapshotAt: string | null; isStale: boolean; triggeredEmail: string | null };
 
 function value(row: Record<string, unknown>, keys: string[]) {
   for (const key of keys) {

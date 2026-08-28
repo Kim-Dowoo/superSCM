@@ -13,6 +13,8 @@ export const menuItems: MenuItem[] = [
   { href: '/admin/users', label: '사용자 관리', icon: UsersRound, scope: 'ADMIN' },
   { href: '/admin/forecast-settings', label: 'Forecast 설정', icon: Settings, scope: 'ADMIN' },
   { href: '/admin/data-management', label: '데이터 관리', icon: Settings, scope: 'ADMIN' },
+  { href: '/admin/forecast-models', label: 'Forecast 모델', icon: Settings, scope: 'ADMIN' },
+  { href: '/admin/forecast-runs', label: 'Forecast 실행 이력', icon: Settings, scope: 'ADMIN' },
 ];
 
 export function getMenuItems(scope: MenuScope) { return menuItems.filter((item) => item.scope === scope); }
