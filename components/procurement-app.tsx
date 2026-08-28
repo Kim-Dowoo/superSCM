@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { AlertTriangle, BarChart3, Boxes, Check, ChevronLeft, ChevronRight, CircleDollarSign, ClipboardCheck, FileSpreadsheet, FileText, Gauge, LineChart, Layers3, PackageCheck, Settings2, ShoppingCart, Upload, Workflow, Wrench } from 'lucide-react';
 import DashboardStep from '@/components/workflow/dashboard-step';
+import LogoutButton from '@/components/auth/logout-button';
 import DemandStep from '@/components/workflow/demand-step';
 import SupplyStep from '@/components/workflow/supply-step';
 import MasterStep from '@/components/workflow/master-step';
@@ -43,7 +44,7 @@ export default function ProcurementApp() {
   }, [active]);
 
   return (
-    <div className="app-shell">
+    <div className="app-shell legacy-workflow-shell">
       <aside className="sidebar">
         <div className="brand">
           <div className="brand-mark">OP</div>
@@ -73,7 +74,7 @@ export default function ProcurementApp() {
       <main className="main">
         <header className="topbar">
           <div><div className="eyebrow">MONTHLY PROCUREMENT CONTROL</div><h1>{current.label}</h1></div>
-          <div className="top-meta"><span className="local-badge">LOCAL PROTOTYPE</span><span>기준월도 <b>2026.09</b></span></div>
+          <div className="top-meta"><span className="local-badge">LOCAL PROTOTYPE</span><span>기준월도 <b>2026.09</b></span><LogoutButton /></div>
         </header>
         <div className="content">
           <div className="progress-wrap">

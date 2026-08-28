@@ -1,0 +1,62 @@
+.legacy-workflow-shell { --legacy-ink: #163b3a; --legacy-muted: #71818a; --legacy-line: #dce8e5; --legacy-canvas: #f4f9f7; --legacy-surface: #fff; --legacy-green: #2eaa93; --legacy-pale-green: #e5f5ef; --legacy-blue: #2679bd; --legacy-pale-blue: #eef6fc; --legacy-amber: #c47a13; --legacy-pale-amber: #fff5df; background: var(--legacy-canvas); color: var(--legacy-ink); min-height: 100vh; }
+.legacy-workflow-shell .sidebar { background: #0d5045; border: 0; color: #fff; flex: 0 0 250px; padding: 28px 18px; }
+.legacy-workflow-shell .brand { align-items: center; display: flex; gap: 12px; margin: 0 8px 38px; }
+.legacy-workflow-shell .brand-mark { align-items: center; background: var(--legacy-green); border-radius: 12px; display: grid; font-weight: 800; height: 38px; place-items: center; width: 38px; }
+.legacy-workflow-shell .brand-copy strong { display: block; font-size: 15px; }
+.legacy-workflow-shell .brand-copy span { color: #b8d7d0; display: block; font-size: 11px; margin-top: 3px; }
+.legacy-workflow-shell .nav-label { color: #9bc3bc; font-size: 10px; font-weight: 700; letter-spacing: 1.3px; margin: 0 0 9px; padding: 0 10px; }
+.legacy-workflow-shell .nav-list { display: grid; gap: 5px; }
+.legacy-workflow-shell .nav-button { align-items: center; background: transparent; border: 0; border-radius: 10px; color: #c7e0db; display: flex; font-size: 13px; gap: 11px; padding: 12px 11px; text-align: left; }
+.legacy-workflow-shell .nav-button.active { background: var(--legacy-green); color: #fff; }
+.legacy-workflow-shell .nav-number { align-items: center; border: 1px solid currentColor; border-radius: 7px; display: grid; font-size: 11px; font-weight: 700; height: 22px; place-items: center; width: 22px; }
+.legacy-workflow-shell .sidebar-foot { border-top: 1px solid rgb(255 255 255 / 12%); color: #a9cac3; font-size: 11px; line-height: 1.6; margin-top: auto; padding: 15px 10px 0; }
+.legacy-workflow-shell .sidebar-foot b { color: #fff; }
+.legacy-workflow-shell .main { color: var(--legacy-ink); }
+.legacy-workflow-shell .topbar { background: rgb(255 255 255 / 92%); border-bottom: 1px solid var(--legacy-line); height: 75px; padding: 0 42px; }
+.legacy-workflow-shell .topbar h1 { font-size: 18px; letter-spacing: -.5px; margin: 5px 0 0; }
+.legacy-workflow-shell .top-meta { align-items: center; color: var(--legacy-muted); display: flex; font-size: 12px; gap: 18px; }
+.legacy-workflow-shell .local-badge { background: var(--legacy-pale-green); border: 1px solid #c6e7dd; border-radius: 999px; color: #176957; font-weight: 700; padding: 6px 10px; }
+.legacy-workflow-shell .content { margin: 0 auto; max-width: 1440px; padding: 32px 42px 56px; }
+.legacy-workflow-shell .progress-wrap { background: var(--legacy-surface); border: 1px solid var(--legacy-line); border-radius: 14px; margin-bottom: 26px; padding: 19px 22px 15px; }
+.legacy-workflow-shell .progress-track { align-items: flex-start; display: flex; }
+.legacy-workflow-shell .progress-step { align-items: center; background: transparent; border: 0; color: #a2adba; display: flex; flex: 0 0 auto; flex-direction: column; gap: 7px; min-width: 112px; padding: 0; white-space: nowrap; }
+.legacy-workflow-shell .progress-step.active { color: var(--legacy-ink); font-weight: 700; }
+.legacy-workflow-shell .progress-kicker { color: #a6b0bd; font-size: 9px; font-weight: 800; letter-spacing: .8px; min-height: 15px; }
+.legacy-workflow-shell .progress-step.active .progress-kicker { color: var(--legacy-blue); }
+.legacy-workflow-shell .progress-dot { align-items: center; background: #fff; border: 3px solid #d4dae1; border-radius: 50%; color: #a4afbb; display: grid; font-size: 10px; font-weight: 800; height: 27px; place-items: center; width: 27px; }
+.legacy-workflow-shell .progress-step.active .progress-dot { border-color: var(--legacy-blue); color: var(--legacy-blue); }
+.legacy-workflow-shell .progress-line { background: #dfe5ea; height: 3px; margin-top: 47px; min-width: 40px; width: 100%; }
+.legacy-workflow-shell .progress-caption { color: var(--legacy-muted); display: flex; font-size: 11px; justify-content: space-between; margin-top: 12px; }
+.legacy-workflow-shell .page-heading { align-items: flex-end; display: flex; justify-content: space-between; margin-bottom: 26px; }
+.legacy-workflow-shell .page-heading h2 { font-size: 30px; letter-spacing: -.04em; margin: 7px 0 8px; }
+.legacy-workflow-shell .page-heading p { color: var(--legacy-muted); margin: 0; }
+.legacy-workflow-shell .grid { gap: 18px; }
+.legacy-workflow-shell .card { background: var(--legacy-surface); border: 1px solid var(--legacy-line); border-radius: 14px; padding: 22px; }
+.legacy-workflow-shell .metric { min-height: 132px; }
+.legacy-workflow-shell .metric-label, .legacy-workflow-shell .metric-foot { color: var(--legacy-muted); font-size: 12px; }
+.legacy-workflow-shell .metric-value { color: #12685c; font-size: 29px; font-weight: 800; margin: 15px 0 8px; }
+.legacy-workflow-shell .metric-foot.good { color: #248664; }
+.legacy-workflow-shell .metric-foot.warn { color: var(--legacy-amber); }
+.legacy-workflow-shell .card-title { align-items: center; display: flex; justify-content: space-between; margin-bottom: 15px; }
+.legacy-workflow-shell .card-title h3, .legacy-workflow-shell .section-heading h3 { font-size: 17px; margin: 0; }
+.legacy-workflow-shell .checklist { display: grid; gap: 14px; }
+.legacy-workflow-shell .check-row { align-items: center; display: flex; justify-content: space-between; }
+.legacy-workflow-shell .check-label { align-items: center; display: flex; gap: 9px; font-size: 13px; }
+.legacy-workflow-shell .check-icon { align-items: center; background: var(--legacy-pale-green); border-radius: 50%; color: #238665; display: grid; height: 22px; place-items: center; width: 22px; }
+.legacy-workflow-shell .check-icon.pending { background: var(--legacy-pale-amber); color: var(--legacy-amber); }
+.legacy-workflow-shell .tag { border-radius: 999px; font-size: 10px; font-weight: 700; padding: 5px 9px; }
+.legacy-workflow-shell .tag.green { background: var(--legacy-pale-green); color: #238665; }
+.legacy-workflow-shell .tag.amber { background: var(--legacy-pale-amber); color: var(--legacy-amber); }
+.legacy-workflow-shell .tag.blue { background: var(--legacy-pale-blue); color: var(--legacy-blue); }
+.legacy-workflow-shell .callout { background: var(--legacy-pale-blue); border-radius: 10px; color: #2b6696; display: flex; gap: 10px; line-height: 1.6; padding: 15px; }
+.legacy-workflow-shell .callout strong { display: block; }
+.legacy-workflow-shell .section-heading { align-items: center; display: flex; justify-content: space-between; margin-bottom: 14px; }
+.legacy-workflow-shell .table-wrap { overflow-x: auto; }
+.legacy-workflow-shell table { border-collapse: collapse; min-width: 720px; width: 100%; }
+.legacy-workflow-shell th, .legacy-workflow-shell td { border-bottom: 1px solid var(--legacy-line); font-size: 12px; padding: 12px; text-align: left; }
+.legacy-workflow-shell th { color: var(--legacy-muted); font-weight: 600; }
+.legacy-workflow-shell .button { background: #fff; border: 1px solid #bddbd4; border-radius: 9px; color: var(--legacy-ink); min-height: 36px; padding: 8px 14px; }
+.legacy-workflow-shell .button.primary { background: var(--legacy-green); border-color: var(--legacy-green); color: #fff; }
+.legacy-workflow-shell .button-row { align-items: center; display: flex; gap: 10px; }
+@media (max-width: 900px) { .legacy-workflow-shell .sidebar { flex-basis: 210px; }.legacy-workflow-shell .content, .legacy-workflow-shell .topbar { padding-left: 20px; padding-right: 20px; }.legacy-workflow-shell .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 680px) { .legacy-workflow-shell { display: block; }.legacy-workflow-shell .sidebar { min-height: auto; }.legacy-workflow-shell .content { padding: 20px 14px 40px; }.legacy-workflow-shell .progress-track { overflow-x: auto; }.legacy-workflow-shell .page-heading { align-items: flex-start; display: block; }.legacy-workflow-shell .button-row { margin-top: 15px; }.legacy-workflow-shell .grid-2, .legacy-workflow-shell .grid-4 { grid-template-columns: 1fr; } }
