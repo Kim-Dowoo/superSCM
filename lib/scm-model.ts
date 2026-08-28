@@ -36,6 +36,23 @@ export type StockoutKpi = {
   avgStockoutDays: number | null;
 };
 
+export type ForecastSettings = {
+  dataStart: string | null;
+  dataEnd: string | null;
+  trainStart: string | null;
+  trainEnd: string | null;
+  testStart: string | null;
+  testEnd: string | null;
+  granularity: string;
+  trainRowCount: number;
+  testRowCount: number;
+  trainWindowOk: boolean;
+  testWindowOk: boolean;
+  policyCount: number;
+  activeOutlierRuleCount: number;
+  itemPolicyCount: number;
+};
+
 function value(row: Record<string, unknown>, keys: string[]) {
   for (const key of keys) {
     if (row[key] !== undefined && row[key] !== null && row[key] !== '') return row[key];
