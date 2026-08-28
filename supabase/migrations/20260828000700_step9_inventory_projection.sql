@@ -106,10 +106,12 @@ with latest_run as (
 ), calc as (
   select b.*,sum(case when b.forecast_demand is null then 1 else 0 end) over(partition by item_id order by period rows between unbounded preceding and current row) missing_forecast,
          sum(b.scheduled_receipt-b.confirmed_sales_order-b.soft_allocation-coalesce(b.forecast_demand,0)) over(partition by item_id order by period rows between unbounded preceding and current row) net_change,
+         sum(b.scheduled_receipt-b.confirmed_sales_order-b.soft_allocation-coalesce(b.forecast_demand,0)) over(partition by item_id order by period rows between unbounded preceding and 1 preceding) prior_net_change,
          row_number() over(partition by item_id order by period) rn
   from base b
 )
-select c.item_id,c.item_name,c.supplier_id,c.period,c.current_stock beginning_inventory,
+select c.item_id,c.item_name,c.supplier_id,c.period,
+       case when c.current_stock is null or c.missing_forecast>0 then null else c.current_stock+coalesce(c.prior_net_change,0) end beginning_inventory,
        c.scheduled_receipt,c.confirmed_sales_order,c.soft_allocation,c.soft_allocation_missing,
        c.forecast_demand,c.model_id,c.model_version,
        case when c.current_stock is null then null when c.missing_forecast>0 then null else c.current_stock+c.net_change end ending_projected_inventory,
