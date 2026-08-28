@@ -1,3 +1,20 @@
-import Link from 'next/link';
+import LoginForm from '@/components/auth/login-form';
 
-export default function LoginPage() { return <main className="page-content"><section className="panel"><span className="eyebrow">AUTH</span><h1>superSCM</h1><p>인증 기능은 이후 단계에서 연결합니다.</p><Link className="button button-primary" href="/">시스템으로 이동</Link></section></main>; }
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string | string[] }>;
+}) {
+  const { next } = await searchParams;
+
+  return (
+    <main className="page-content">
+      <section className="panel">
+        <span className="eyebrow">AUTH</span>
+        <h1>superSCM 로그인</h1>
+        <p>월간 발주계획 시스템을 이용하려면 로그인하세요.</p>
+        <LoginForm next={typeof next === 'string' ? next : ''} />
+      </section>
+    </main>
+  );
+}
