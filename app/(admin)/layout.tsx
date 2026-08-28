@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import LogoutButton from '@/components/auth/logout-button';
 import Sidebar from '@/components/shell/sidebar';
 import Topbar from '@/components/shell/topbar';
 import { requireAdmin } from '@/lib/auth';
@@ -14,7 +13,6 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       <Sidebar scope="ADMIN" />
       <main className="main">
         <Topbar scope="ADMIN" />
-        <div className="page-content"><LogoutButton /></div>
         {children}
       </main>
     </div>
